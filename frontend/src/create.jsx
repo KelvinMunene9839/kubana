@@ -18,7 +18,7 @@ function CreateStudent() {
         })
         .then(res =>{
             console.log(res);
-            navigate('/');
+            navigate('/dashboard');
         })
     }
   return (

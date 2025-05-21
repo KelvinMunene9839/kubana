@@ -97,14 +97,21 @@ app.get('/student/:id', authenticateToken, (req, res) => {
 });
 
 app.post('/create', authenticateToken, (req, res) => {
-    const sql = "INSERT INTO students (Name,email) VALUES(?,?)";
-    const values = [
-        req.body.name,
-        req.body.email
-    ];
-    db.query(sql, values, (err, data) => {
-        if (err) return res.json(err);
-        return res.json(data);
+    const { name, email } = req.body;
+    // First, check if student already exists by email
+    const checkSql = "SELECT * FROM students WHERE email = ?";
+    db.query(checkSql, [email], (checkErr, checkResult) => {
+        if (checkErr) return res.status(500).json({ error: checkErr.message });
+        if (checkResult.length > 0) {
+            // Student with the email already exists
+            return res.status(400).json({ message: "Student with this email already exists" });
+        }
+        // If not exists, insert new student
+        const insertSql = "INSERT INTO students (Name, email) VALUES (?, ?)";
+        db.query(insertSql, [name, email], (insertErr, insertResult) => {
+            if (insertErr) return res.status(500).json({ error: insertErr.message });
+            return res.status(201).json({ message: "Student registered successfully", studentId: insertResult.insertId });
+        });
     });
 });
 
