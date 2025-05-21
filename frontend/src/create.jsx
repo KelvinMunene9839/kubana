@@ -24,8 +24,8 @@ function CreateStudent() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <div className="flex-grow container mx-auto p-4">
-        <div className="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto mt-10">
+      <div className="flex-grow container mx-auto p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-14">
+        <div className="bg-white rounded-lg shadow-md p-6 max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto mt-10">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <h2 className="text-xl font-semibold mb-4">Add Student</h2>
               <div>
